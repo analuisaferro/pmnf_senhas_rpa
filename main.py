@@ -1,5 +1,7 @@
 import senhas_turismo.functions as fc
 
+import os
+os.system('cls')
 print('Bem vindo')
 print('''
 
@@ -13,6 +15,7 @@ Comandos:
     - O que você desejar fazer?
 ''')
 
-cmd=input()
 
-fc.run(cmd)
+if __name__=='__main__':
+    cmd=input()
+    fc.run(cmd)

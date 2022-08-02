@@ -6,8 +6,9 @@ from .cad_compras import cadastrarViagemCompra
 from .cad_compras_e_turismo import cadastrarViagemTurismoECompras
 from senhas_turismo.cad_pico_caledonia import CadastrarViagemPicoDaCaledonia
 
-def login(driver):
+def login():
     # logando no site
+    global driver
     driver=webdriver.Chrome()
     driver.get("http://localhost:8000/login/")
     username = driver.find_element(By.NAME, "username")
@@ -38,12 +39,15 @@ def run(cmd):
             if cmd in cmds:
                 
                 if not is_authenticated:
-                    login(driver)
+                    login()
                     is_authenticated=True
-                opcoes[cmd](driver)
+                opcoes[cmd]()
             else:
                 print('Este comando não existe. Tente outro.')
         except Exception as E:
             print('Error:', E)
         print('- O que deseja fazer?')
         cmd=input('>> ')
+
+if __name__=='__main__':
+    print('teste')
