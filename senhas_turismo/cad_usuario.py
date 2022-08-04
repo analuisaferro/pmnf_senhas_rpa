@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-
+from .util import geradorDeCpf
 
 
 def cadastrarUsuario(driver):
@@ -11,7 +11,7 @@ def cadastrarUsuario(driver):
     usuario = driver.find_element(By.ID, "id_nome")
     usuario.send_keys("Gabriela Carrasco Farias")
     cpf = driver.find_element(By.ID, "id_cpf")
-    cpf.send_keys("92637569026")
+    cpf.send_keys(geradorDeCpf())
     email = driver.find_element(By.ID, "id_email")
     email.send_keys("rebecaadriana@kaynak.com.br")
     celular = driver.find_element(By.ID, "id_celular")
@@ -27,3 +27,4 @@ def cadastrarUsuario(driver):
     senhaconf = driver.find_element(By.ID, "id_senha_confirma")
     senhaconf.send_keys("wnnUFfeqAl")
     btn_cad = driver.find_element(By.TAG_NAME, "button")
+    

@@ -1,11 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+import pyautogui
 
 def cadastrarViagemCompra(driver):
     #cadastro gp turismo e compras
-    gpc = driver.find_element(By.ID, "compras")
-    gpc.click()
+    driver.get("http://localhost:8000/cad_viagem/c/compras")
     nomeRes = driver.find_element(By.ID, "id_responsavel_viagem")
     nomeRes.send_keys("Cristiane Catarina Moura")
     contatoRes = driver.find_element(By.ID, "id_contato_responsavel")
@@ -30,5 +30,5 @@ def cadastrarViagemCompra(driver):
     tipovei.send_keys("v")
     btnCad = driver.find_element(By.ID, "submit")
     btnCad.click()
-
+    pyautogui.hotkey('enter')
     # driver.close()

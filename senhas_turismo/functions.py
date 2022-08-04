@@ -1,3 +1,4 @@
+from ctypes.wintypes import PWORD
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -6,25 +7,39 @@ from .cad_compras import cadastrarViagemCompra
 from .cad_compras_e_turismo import cadastrarViagemTurismoECompras
 from senhas_turismo.cad_pico_caledonia import CadastrarViagemPicoDaCaledonia
 
-def login():
+def inflogin():
+    print(''''
+    Bem vindo
+    
+    ''')
+    email=input('Email: ')
+    pw=input('Senha: ')
+    return email, pw
+
+
+def login(driver, email, pw):
     # logando no site
-    global driver
     driver=webdriver.Chrome()
     driver.get("http://localhost:8000/login/")
     username = driver.find_element(By.NAME, "username")
-    username.send_keys("analuisaferro@gmail.com")
-    pw = driver.find_element(By.NAME, "password")
-    pw.send_keys("12345678")
+    username.send_keys(email)
+    pwpw = driver.find_element(By.NAME, "password")
+    pwpw.send_keys(pw)
     btn = driver.find_element(By.TAG_NAME, "button")
     btn.click()
-    
-def run(cmd):
+    return driver
+
+def logout(driver):
+    driver=webdriver.Chrome()
+    driver.get("http://localhost:8000/contas/sair/")
+
+def run(cmd, email, pw):
     driver=None
     is_authenticated=False
     
     opcoes={
-        'caduser': cadastrarUsuario,
-        't': cadastrarViagemTurismoECompras,
+        'user': cadastrarUsuario,
+        'tc': cadastrarViagemTurismoECompras,
         'c': cadastrarViagemCompra,
         'pc': CadastrarViagemPicoDaCaledonia,    
     }
@@ -39,15 +54,20 @@ def run(cmd):
             if cmd in cmds:
                 
                 if not is_authenticated:
-                    login()
-                    is_authenticated=True
-                opcoes[cmd]()
+                    if cmd == "user":
+                        cadastrarUsuario(driver)
+                    else:                        
+                        driver = login(driver, email, pw)
+                        is_authenticated=True
+                elif  cmd == "user":
+                    logout(driver)
+
+                opcoes[cmd](driver)
             else:
                 print('Este comando não existe. Tente outro.')
         except Exception as E:
             print('Error:', E)
         print('- O que deseja fazer?')
         cmd=input('>> ')
-
-if __name__=='__main__':
-    print('teste')
+# if __name__=='__main__':
+#     print('teste')
